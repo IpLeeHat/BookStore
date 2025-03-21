@@ -109,13 +109,13 @@
                 <th>ID</th>
                 <th>Title</th>
                 <th>Author</th>
-                <th>Publish Date</th>
+                <th>Publish Year</th>
                 <th>Category ID</th>
                 <th>Description</th>
                 <th>Image</th>
                 <th>Price</th>
                 <th>Quantity</th>
-                <th>View Count</th>
+                <th>Review Count</th>
                 <th>Purchase Count</th>
                 <th>Actions</th>
             </tr>
@@ -128,7 +128,7 @@
                 <td><%= b.getBookID() %></td>
                 <td><%= b.getTitle() %></td>
                 <td><%= b.getAuthor() %></td>
-                <td><%= b.getPublishDate() %></td>
+                <td><%= b.getPublishYear() %></td>
                 <td><%= b.getCategoryID() %></td>
                 <td><%= b.getDescription() %></td>
                 <td>
@@ -136,7 +136,7 @@
                 </td>
                 <td>$<%= b.getPrice() %></td>
                 <td><%= b.getQuantity() %></td>
-                <td><%= b.getViewCount() %></td>
+                <td><%= b.getReviewCount() %></td>
                 <td><%= b.getPurchaseCount() %></td>
                 <td>
                     <a href="updateBook.jsp?id=<%= b.getBookID() %>">Update</a> | 
@@ -152,13 +152,13 @@
             <input type="hidden" name="action" value="addBook">
             <label>Title:</label> <input type="text" name="title" required><br>
             <label>Author:</label> <input type="text" name="author" required><br>
-            <label>Publish Date:</label> <input type="date" name="publishDate" required><br>
+            <label>Publish Year:</label> <input type="number" name="publishYear" required><br>
             <label>Category ID:</label> <input type="number" name="categoryID" required><br>
             <label>Description:</label> <textarea name="description" required></textarea><br>
             <label>Image URL:</label> <input type="text" name="image" required><br>
             <label>Price:</label> <input type="number" step="0.01" name="price" required><br>
             <label>Quantity:</label> <input type="number" name="quantity" required><br>
-            <label>View Count:</label> <input type="number" name="viewCount" required><br>
+            <label>Review Count:</label> <input type="number" name="reviewCount" required><br>
             <label>Purchase Count:</label> <input type="number" name="purchaseCount" required><br>
             <button type="submit">Add Book</button>
         </form>

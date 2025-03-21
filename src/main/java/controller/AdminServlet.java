@@ -2,11 +2,7 @@ package controller;
 
 import DAO.BookDAO;
 import DAO.CustomerDAO;
-import DAO.CustomerDAO;
 import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -24,53 +20,49 @@ public class AdminServlet extends HttpServlet {
         BookDAO bookDAO = new BookDAO();
 
         try {
-            if ("addBook".equals(action)) {
-                // Retrieve data from the form
+            if ("addBook".equals(action) || "updateBook".equals(action)) {
+                // Lấy dữ liệu từ form
                 String title = request.getParameter("title");
                 String author = request.getParameter("author");
-                int quantity = Integer.parseInt(request.getParameter("quantity"));
-                String genre = request.getParameter("genre");
+                String translator = request.getParameter("translator");
+                String supplier = request.getParameter("supplier");
+                String publisher = request.getParameter("publisher");
+                int publishYear = Integer.parseInt(request.getParameter("publishYear"));
                 String language = request.getParameter("language");
+                int weight = Integer.parseInt(request.getParameter("weight"));
+                String dimensions = request.getParameter("dimensions");
+                int pageCount = Integer.parseInt(request.getParameter("pageCount"));
+                String format = request.getParameter("format");
+                String sku = request.getParameter("sku");
+                int categoryID = Integer.parseInt(request.getParameter("categoryID"));
+                String description = request.getParameter("description");
+                String image = request.getParameter("image");
                 double price = Double.parseDouble(request.getParameter("price"));
-                int pages = Integer.parseInt(request.getParameter("pages"));
-                int rating = Integer.parseInt(request.getParameter("rating"));
-                int stock = Integer.parseInt(request.getParameter("stock"));
-
-                // Convert publish date
-                String dateStr = request.getParameter("publishDate");
-                Date publishDate = new SimpleDateFormat("yyyy-MM-dd").parse(dateStr);
-                java.sql.Date sqlPublishDate = new java.sql.Date(publishDate.getTime());
-
-                // Create a Book object and add to DB
-                Book book = new Book(0, title, author, sqlPublishDate, quantity, genre, language, price, pages, rating, stock);
-                bookDAO.addBook(book);
-
-                request.setAttribute("message", "Book added successfully!");
-            } else if ("updateBook".equals(action)) {
-                int id = Integer.parseInt(request.getParameter("id"));
-                String title = request.getParameter("title");
-                String author = request.getParameter("author");
                 int quantity = Integer.parseInt(request.getParameter("quantity"));
-                String genre = request.getParameter("genre");
-                String language = request.getParameter("language");
-                double price = Double.parseDouble(request.getParameter("price"));
-                int pages = Integer.parseInt(request.getParameter("pages"));
-                int rating = Integer.parseInt(request.getParameter("rating"));
-                int stock = Integer.parseInt(request.getParameter("stock"));
+                int reviewCount = Integer.parseInt(request.getParameter("reviewCount"));
+                int purchaseCount = Integer.parseInt(request.getParameter("purchaseCount"));
 
-                // Convert publish date
-                String dateStr = request.getParameter("publishDate");
-                Date publishDate = new SimpleDateFormat("yyyy-MM-dd").parse(dateStr);
-                java.sql.Date sqlPublishDate = new java.sql.Date(publishDate.getTime());
+                // Tạo đối tượng Book
+                Book book = new Book(
+                        "updateBook".equals(action) ? Integer.parseInt(request.getParameter("id")) : 0,
+                        title, author, translator, supplier, publisher, publishYear,
+                        language, weight, dimensions, pageCount, format, sku, categoryID,
+                        description, image, price, quantity, reviewCount, purchaseCount
+                );
 
-                // Update book in DB
-                Book book = new Book(id, title, author, sqlPublishDate, quantity, genre, language, price, pages, rating, stock);
-                bookDAO.updateBook(book);
-
-                request.setAttribute("message", "Book updated successfully!");
+                if ("addBook".equals(action)) {
+                    bookDAO.addBook(book);
+                    request.setAttribute("message", "Book added successfully!");
+                } else {
+                    bookDAO.updateBook(book);
+                    request.setAttribute("message", "Book updated successfully!");
+                }
             }
-        } catch (NumberFormatException | ParseException e) {
-            request.setAttribute("error", "Error: Please enter data in the correct format!");
+        } catch (NumberFormatException e) {
+            request.setAttribute("error", "Invalid number format! Please enter correct values.");
+        } catch (Exception e) {
+            request.setAttribute("error", "An error occurred while processing your request.");
+            e.printStackTrace();
         }
 
         request.getRequestDispatcher("admin.jsp").forward(request, response);
@@ -83,14 +75,21 @@ public class AdminServlet extends HttpServlet {
         CustomerDAO customerDAO = new CustomerDAO();
         BookDAO bookDAO = new BookDAO();
 
-        if ("deleteCustomer".equals(action)) {
-            String username = request.getParameter("username");
-            customerDAO.deleteCustomer(username);
-            response.sendRedirect("admin.jsp");
-        } else if ("deleteBook".equals(action)) {
-            int id = Integer.parseInt(request.getParameter("id"));
-            bookDAO.deleteBook(id);
-            response.sendRedirect("admin.jsp");
+        try {
+            if ("deleteCustomer".equals(action)) {
+                String username = request.getParameter("username");
+                customerDAO.deleteCustomer(username);
+                response.sendRedirect("admin.jsp?message=Customer deleted successfully");
+            } else if ("deleteBook".equals(action)) {
+                int id = Integer.parseInt(request.getParameter("id"));
+                bookDAO.deleteBook(id);
+                response.sendRedirect("admin.jsp?message=Book deleted successfully");
+            }
+        } catch (NumberFormatException e) {
+            response.sendRedirect("admin.jsp?error=Invalid book ID format");
+        } catch (Exception e) {
+            response.sendRedirect("admin.jsp?error=An error occurred while processing your request");
+            e.printStackTrace();
         }
     }
 
