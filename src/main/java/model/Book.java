@@ -1,35 +1,57 @@
 package model;
 
-import java.math.BigDecimal;
 import java.util.Date;
 
 public class Book {
     private int bookID;
     private String title;
     private String author;
-    private Date publishDate;
+    private String translator;
+    private String supplier;
+    private String publisher;
+    private int publishYear;
+    private String language;
+    private int weight;
+    private String dimensions;
+    private int pageCount;
+    private String format;
+    private String sku;
     private int categoryID;
     private String description;
     private String image;
     private double price;
     private int quantity;
-    private int viewCount;
+     private int reviewCount;
     private int purchaseCount;
 
-    public Book(int bookID, String title, String author, Date publishDate, int categoryID, String description, String image, double price, int quantity, int viewCount, int purchaseCount) {
-        this.bookID = bookID;
-        this.title = title;
-        this.author = author;
-        this.publishDate = publishDate;
-        this.categoryID = categoryID;
-        this.description = description;
-        this.image = image;
-        this.price = price;
-        this.quantity = quantity;
-        this.viewCount = viewCount;
-        this.purchaseCount = purchaseCount;
-    }
+    public Book(int bookID, String title, String author, String translator, String supplier, String publisher, 
+            int publishYear, String language, int weight, String dimensions, int pageCount, 
+            String format, String sku, int categoryID, String description, String image, 
+            double price, int quantity, int reviewCount, int purchaseCount) { // ✅ Thêm hai tham số
+    this.bookID = bookID;
+    this.title = title;
+    this.author = author;
+    this.translator = translator;
+    this.supplier = supplier;
+    this.publisher = publisher;
+    this.publishYear = publishYear;
+    this.language = language;
+    this.weight = weight;
+    this.dimensions = dimensions;
+    this.pageCount = pageCount;
+    this.format = format;
+    this.sku = sku;
+    this.categoryID = categoryID;
+    this.description = description;
+    this.image = image;
+    this.price = price;
+    this.quantity = quantity;
+    this.reviewCount = reviewCount; 
+    this.purchaseCount = purchaseCount; 
+}
 
+
+    // Getters và Setters
     public int getBookID() {
         return bookID;
     }
@@ -54,12 +76,84 @@ public class Book {
         this.author = author;
     }
 
-    public Date getPublishDate() {
-        return publishDate;
+    public String getTranslator() {
+        return translator;
     }
 
-    public void setPublishDate(Date publishDate) {
-        this.publishDate = publishDate;
+    public void setTranslator(String translator) {
+        this.translator = translator;
+    }
+
+    public String getSupplier() {
+        return supplier;
+    }
+
+    public void setSupplier(String supplier) {
+        this.supplier = supplier;
+    }
+
+    public String getPublisher() {
+        return publisher;
+    }
+
+    public void setPublisher(String publisher) {
+        this.publisher = publisher;
+    }
+
+    public int getPublishYear() {
+        return publishYear;
+    }
+
+    public void setPublishYear(int publishYear) {
+        this.publishYear = publishYear;
+    }
+
+    public String getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
+    }
+
+    public int getWeight() {
+        return weight;
+    }
+
+    public void setWeight(int weight) {
+        this.weight = weight;
+    }
+
+    public String getDimensions() {
+        return dimensions;
+    }
+
+    public void setDimensions(String dimensions) {
+        this.dimensions = dimensions;
+    }
+
+    public int getPageCount() {
+        return pageCount;
+    }
+
+    public void setPageCount(int pageCount) {
+        this.pageCount = pageCount;
+    }
+
+    public String getFormat() {
+        return format;
+    }
+
+    public void setFormat(String format) {
+        this.format = format;
+    }
+
+    public String getSku() {
+        return sku;
+    }
+
+    public void setSku(String sku) {
+        this.sku = sku;
     }
 
     public int getCategoryID() {
@@ -90,7 +184,7 @@ public class Book {
         return price;
     }
 
-    public void setPrice(Float price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 
@@ -101,13 +195,12 @@ public class Book {
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
-
-    public int getViewCount() {
-        return viewCount;
+      public int getReviewCount() {
+        return reviewCount;
     }
 
-    public void setViewCount(int viewCount) {
-        this.viewCount = viewCount;
+    public void setReviewCount(int reviewCount) {
+        this.reviewCount = reviewCount;
     }
 
     public int getPurchaseCount() {
