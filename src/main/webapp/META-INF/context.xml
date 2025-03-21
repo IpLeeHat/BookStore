@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context path="/BookShop">
+    <Resource
+        name="jdbc/bookshopdb"
+        auth="Container"
+        type="javax.sql.DataSource"
+        factory="org.apache.tomcat.jdbc.pool.DataSourceFactory"
+        driverClassName="com.microsoft.sqlserver.jdbc.SQLServerDriver"
+        url="jdbc:sqlserver://localhost:1433;databaseName=ProductDB;encrypt=false"
+        username="bookshopdb"
+        password="123"
+        maxTotal="100"
+        maxIdle="30"
+        maxWaitMillis="10000"/>
+</Context>
