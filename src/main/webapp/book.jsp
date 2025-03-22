@@ -196,7 +196,49 @@
             .dropdown:hover .dropdown-content {
                 display: block;
             }
-    
+
+            /*            footer*/
+            footer {
+                background: #f5f5f5;
+                padding: 20px;
+                font-family: Arial, sans-serif;
+            }
+            .footer-container {
+                display: flex;
+                justify-content: space-between;
+                max-width: 1200px;
+                margin: auto;
+                flex-wrap: wrap;
+            }
+
+            .footer-left, .footer-middle, .footer-right  {
+                flex: 1;
+                margin: 10px;
+            }
+            .footer-left h2 {
+                color: red;
+            }
+            .footer-middle ul {
+                list-style: none;
+                padding: 0;
+            }
+            .footer-middle ul li {
+                margin: 5px 0;
+            }
+            .social-icons i {
+                font-size: 20px;
+                margin-right: 10px;
+            }
+            @media (max-width: 768px) {
+                .footer-container {
+                    flex-direction: column;
+                    text-align: center;
+                }
+                .social-icons {
+                    justify-content: center;
+                }
+            }
+
         </style>
     </head>
     <body>
@@ -291,10 +333,12 @@
                     for (Book book : books) {
             %>
             <div class="book-card">
-                <img src="<%= book.getImage() %>" alt="Bìa sách">
-                <p class="book-title"><%= book.getTitle() %></p>
-                <p class="book-price"><%= book.getPrice() %> VNĐ</p>
-                <p class="book-sold">Sold: <%= book.getPurchaseCount() %> </p>
+                <a href="bookDetails?id=<%= book.getBookID() %>">
+                    <img src="<%= book.getImage() %>" alt="Bìa sách">
+                    <p class="book-title"><%= book.getTitle() %></p>
+                    <p class="book-price"><%= book.getFormattedPrice() %> VNĐ</p>
+                    <p class="book-sold">Sold: <%= book.getPurchaseCount() %></p>
+                </a>
             </div>
             <%
                     }
@@ -306,5 +350,48 @@
             %>
         </div>
 
+
     </body>
+    <footer>
+        <div class="footer-container">
+            <div class="footer-left">
+                <div class="footer-img">
+                    <img src="<%= request.getContextPath() %>/images/logo.png" alt="logo">
+                </div>
+                <p>FPT University</p>
+                <p>Hòa Hải - NHS - Đà Nẵng</p>
+                <div class="social-icons">
+                    <i class="fab fa-facebook"></i>
+                    <i class="fab fa-instagram"></i>
+                    <i class="fab fa-twitter"></i>
+                    <i class="fab fa-youtube"></i>
+                </div>
+            </div>
+            <div class="footer-middle">
+                <h3>DỊCH VỤ</h3>
+                <ul>
+                    <li>Điều khoản sử dụng</li>
+                    <li>Chính sách bảo mật thông tin cá nhân</li>
+                    <li>Chính sách bảo mật thanh toán</li>
+                    <li>Giới thiệu Fahasa</li>
+                    <li>Hệ thống trung tâm - nhà sách</li>
+                </ul>
+            </div>
+            <div class="footer-middle">
+                <h3>HỖ TRỢ</h3>
+                <ul>
+                    <li>Chính sách đổi - trả - hoàn tiền</li>
+                    <li>Chính sách bảo hành - bồi hoàn</li>
+                    <li>Chính sách vận chuyển</li>
+                    <li>Chính sách khách sĩ</li>
+                </ul>
+            </div>
+            <div class="footer-right">
+                <h3>LIÊN HỆ</h3>
+                <p>📍 Thành phố Kon Tum, tỉnh Kon Tum</p>
+                <p>📧 khanhhoa@gmail.com</p>
+                <p>📞 113 113 113</p>
+            </div>
+        </div>
+    </footer>
 </html>
