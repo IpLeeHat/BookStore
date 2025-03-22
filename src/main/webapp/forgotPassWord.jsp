@@ -9,26 +9,41 @@
             /* Định dạng toàn trang */
             body {
                 font-family: 'Arial', sans-serif;
-                background: linear-gradient(135deg, #00c6ff, #0072ff);
+                background: url('https://png.pngtree.com/thumb_back/fh260/background/20210908/pngtree-photographs-are-placed-on-the-lawn-of-notebooks-and-books-on-image_830204.jpg') no-repeat center center/cover;
                 display: flex;
                 justify-content: center;
                 align-items: center;
                 height: 100vh;
                 margin: 0;
+                position: relative;
             }
 
-            /* Container chính */
+            /* Lớp phủ làm mờ ảnh */
+            body::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.3); 
+                backdrop-filter: blur(8px); 
+                z-index: 1;
+            }
+
+           
             .form-structor {
-                background: #fff;
+                background: rgba(255, 255, 255, 0.6);
                 border-radius: 10px;
-                padding: 30px;
-                width: 400px;
-                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+                padding: 50px;
+                width: 25vw;
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.7);
                 text-align: center;
-                animation: fadeIn 0.5s ease-in-out;
+                position: relative;
+                z-index: 2;
             }
 
-            /* Tiêu đề form */
+            /* Tiêu đề */
             .form-title {
                 font-size: 24px;
                 font-weight: bold;
@@ -39,12 +54,14 @@
             /* Ô nhập liệu */
             .input {
                 width: 100%;
-                padding: 12px;
+                padding: 10px 0px;
                 margin: 10px 0;
                 border: 1px solid #ddd;
                 border-radius: 5px;
                 font-size: 16px;
                 transition: 0.3s ease-in-out;
+                padding-right: 0px;
+                /* margin-right: 31px; */
             }
 
             /* Hiệu ứng khi nhập vào ô input */
@@ -61,7 +78,6 @@
                 padding: 12px;
                 border: none;
                 border-radius: 5px;
-                width: 100%;
                 font-size: 18px;
                 cursor: pointer;
                 transition: 0.3s;

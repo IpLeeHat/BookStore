@@ -16,8 +16,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import model.Customer;
 
-
-
 @WebServlet(name = "UpdateServlet", urlPatterns = {"/UpdateServlet"})
 public class UpdateServlet extends HttpServlet {
 
@@ -60,7 +58,7 @@ public class UpdateServlet extends HttpServlet {
                 stmt.setString(2, email);
                 stmt.setString(3, phone);
                 stmt.setString(4, address);
-                stmt.setString(5, hashPassword(newPassword)); // Hash mật khẩu
+                stmt.setString(5, newPassword); // Lưu trực tiếp mật khẩu
                 stmt.setString(6, oldUsername);
             } else { // Nếu không đổi mật khẩu
                 sql = "UPDATE USERS SET username=?, email=?, phone=?, address=? WHERE username=?";

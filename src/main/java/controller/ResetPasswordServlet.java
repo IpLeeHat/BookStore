@@ -93,10 +93,9 @@ public class ResetPasswordServlet extends HttpServlet {
         }
 
         try (Connection conn = DBContext.getConnection()) {
-            String hashedPassword = PasswordUtils.hashPassword(newPassword);
             String sql = "UPDATE Users SET password = ? WHERE email = ?";
             PreparedStatement stmt = conn.prepareStatement(sql);
-            stmt.setString(1, hashedPassword);
+            stmt.setString(1, newPassword); // Lưu mật khẩu gốc không mã hóa
             stmt.setString(2, email);
             int updated = stmt.executeUpdate();
 
@@ -105,12 +104,12 @@ public class ResetPasswordServlet extends HttpServlet {
                 response.sendRedirect("login.jsp");
             } else {
                 request.setAttribute("message", "❌ Lỗi cập nhật mật khẩu!");
-                request.getRequestDispatcher("reset-password.jsp").forward(request, response);
+                request.getRequestDispatcher("resetPassWord.jsp").forward(request, response);
             }
         } catch (Exception e) {
             e.printStackTrace();
             request.setAttribute("message", "❌ Lỗi hệ thống!");
-            request.getRequestDispatcher("reset-password.jsp").forward(request, response);
+            request.getRequestDispatcher("resetPassWord.jsp").forward(request, response);
         }
     }
 
