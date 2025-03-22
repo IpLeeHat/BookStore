@@ -10,7 +10,7 @@
 
     <!-- Chỉ định trang đầu tiên khi chạy ứng dụng -->
     <welcome-file-list>
-        <welcome-file>book.jsp</welcome-file>
+        <welcome-file>books</welcome-file>
     </welcome-file-list>
     
 </web-app>
