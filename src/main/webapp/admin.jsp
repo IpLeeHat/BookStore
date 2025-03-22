@@ -10,10 +10,32 @@
                 background-color: #f5f5f5;
                 margin: 0;
                 padding: 20px;
-            }
-            h1, h2, h3 {
                 text-align: center;
+            }
+            h1 {
                 color: #333;
+            }
+            .menu-btn {
+                padding: 15px;
+                font-size: 18px;
+                margin: 10px;
+                cursor: pointer;
+                border: none;
+                border-radius: 5px;
+                background-color: #007BFF;
+                color: white;
+            }
+            .menu-btn:hover {
+                background-color: #0056b3;
+            }
+            .back-btn {
+                background-color: #6c757d;
+            }
+            .back-btn:hover {
+                background-color: #5a6268;
+            }
+            .hidden {
+                display: none;
             }
             table {
                 width: 100%;
@@ -41,126 +63,145 @@
             a:hover {
                 text-decoration: underline;
             }
-            form {
-                width: 50%;
+            .container {
+                max-width: 90%;
                 margin: auto;
-                background: #fff;
-                padding: 20px;
-                box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-                border-radius: 8px;
-            }
-            label {
-                font-weight: bold;
-            }
-            input, button {
-                width: 100%;
-                padding: 10px;
-                margin: 5px 0;
-                border: 1px solid #ccc;
-                border-radius: 5px;
-            }
-            button {
-                background-color: #28a745;
-                color: white;
-                cursor: pointer;
-            }
-            button:hover {
-                background-color: #218838;
             }
         </style>
+        <script>
+            function showSection(section) {
+                document.getElementById('customerSection').classList.add('hidden');
+                document.getElementById('bookSection').classList.add('hidden');
+                document.getElementById('menu').classList.add('hidden');
+                document.getElementById('goBack').classList.remove('hidden');
+                document.getElementById(section).classList.remove('hidden');
+            }
+            function goBack() {
+                document.getElementById('customerSection').classList.add('hidden');
+                document.getElementById('bookSection').classList.add('hidden');
+                document.getElementById('menu').classList.remove('hidden');
+                document.getElementById('goBack').classList.add('hidden');
+            }
+        </script>
     </head>
     <body>
         <h1>Admin Management</h1>
 
-        <!-- Customer List -->
-        <h2>Customer List</h2>
-        <table>
-            <tr>
-                <th>Username</th>
-                <th>Email</th>
-                <th>Phone</th>
-                <th>Address</th>
-                <th>Actions</th>
-            </tr>
-            <%
-                CustomerDAO customerDAO = new CustomerDAO();
-                List<Customer> customers = customerDAO.getAllCustomers();
-                for (Customer c : customers) {
-            %>
-            <tr>
-                <td><%= c.getUsername() %></td>
-                <td><%= c.getEmail() %></td>
-                <td><%= c.getPhone() %></td>
-                <td><%= c.getAddress() %></td>
-                <td>
-                    <a href="AdminServlet?action=deleteCustomer&username=<%= c.getUsername() %>" 
-                       onclick="return confirm('Are you sure you want to delete this customer?')">Delete</a>
-                </td>
-            </tr>
-            <% } %>
-        </table>
+        <div id="menu">
+            <button class="menu-btn" onclick="showSection('customerSection')">👤 View Customers</button>
+            <button class="menu-btn" onclick="showSection('bookSection')">📚 View Books</button>
+        </div>
 
-        <hr>
+        <button id="goBack" class="menu-btn back-btn hidden" onclick="goBack()">🔙 Go Back</button>
 
-        <!-- Book List -->
-        <h2>Book List</h2>
-        <table>
-            <tr>
-                <th>ID</th>
-                <th>Title</th>
-                <th>Author</th>
-                <th>Publish Year</th>
-                <th>Category ID</th>
-                <th>Description</th>
-                <th>Image</th>
-                <th>Price</th>
-                <th>Quantity</th>
-                <th>Review Count</th>
-                <th>Purchase Count</th>
-                <th>Actions</th>
-            </tr>
-            <%
-                BookDAO bookDAO = new BookDAO();
-                List<Book> books = bookDAO.getAllBooks();
-                for (Book b : books) {
-            %>
-            <tr>
-                <td><%= b.getBookID() %></td>
-                <td><%= b.getTitle() %></td>
-                <td><%= b.getAuthor() %></td>
-                <td><%= b.getPublishYear() %></td>
-                <td><%= b.getCategoryID() %></td>
-                <td><%= b.getDescription() %></td>
-                <td>
-                    <img src="<%= b.getImage() %>" alt="Book Cover" width="50">
-                </td>
-                <td>$<%= b.getPrice() %></td>
-                <td><%= b.getQuantity() %></td>
-                <td><%= b.getReviewCount() %></td>
-                <td><%= b.getPurchaseCount() %></td>
-                <td>
-                    <a href="updateBook.jsp?id=<%= b.getBookID() %>">Update</a> | 
-                    <a href="AdminServlet?action=deleteBook&id=<%= b.getBookID() %>" 
-                       onclick="return confirm('Are you sure you want to delete this book?')">Delete</a>
-                </td>
-            </tr>
-            <% } %>
-        </table>
+        <!-- Customer Section -->
+        <div id="customerSection" class="hidden">
+            <h2>Customer List</h2>
+            <table>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Phone Number</th>
+                    <th>Email</th>
+                    <th>Address</th>
+                    <th>Purchased Book</th>
+                    <th>Quantity</th>
+                    <th>Total Price ($)</th>
+                    <th>Role</th>
+                    <th>Actions</th>
+                </tr>
+                <%
+                    CustomerDAO customerDAO = new CustomerDAO();
+                    List<Customer> customers = customerDAO.getAllCustomers();
+                    for (Customer c : customers) {
+                %>
+                <tr>
+                    <td><%= c.getId() %></td>
+                    <td><%= c.getName() %></td>
+                    <td><%= c.getPhoneNumber() %></td>
+                    <td><%= c.getEmail() %></td>
+                    <td><%= c.getAddress() %></td>
+                    <td><%= c.getPurchasedBook() != null ? c.getPurchasedBook() : "N/A" %></td>
+                    <td><%= c.getQuantity() > 0 ? c.getQuantity() : "N/A" %></td>
+                    <td><%= c.getTotalPrice() > 0 ? "$" + c.getTotalPrice() : "N/A" %></td>
+                    <td><%= c.getRole() %></td> <!-- Hiển thị Role -->
+                    <td>
+                        <a href="AdminServlet?action=deleteCustomer&username=<%= c.getName() %>" 
+                           onclick="return confirm('Are you sure you want to delete this customer?')">Delete</a>
+                    </td>
+                </tr>
+                <% } %>
 
-        <h3>Add New Book</h3>
-        <form action="AdminServlet" method="post">
-            <input type="hidden" name="action" value="addBook">
-            <label>Title:</label> <input type="text" name="title" required><br>
-            <label>Author:</label> <input type="text" name="author" required><br>
-            <label>Publish Year:</label> <input type="number" name="publishYear" required><br>
-            <label>Category ID:</label> <input type="number" name="categoryID" required><br>
-            <label>Description:</label> <textarea name="description" required></textarea><br>
-            <label>Image URL:</label> <input type="text" name="image" required><br>
-            <label>Price:</label> <input type="number" step="0.01" name="price" required><br>
-            <label>Quantity:</label> <input type="number" name="quantity" required><br>
-            <label>Review Count:</label> <input type="number" name="reviewCount" required><br>
-            <label>Purchase Count:</label> <input type="number" name="purchaseCount" required><br>
-            <button type="submit">Add Book</button>
-        </form>
+            </table>
+        </div>
+
+
+        <!-- Book Section -->
+        <div id="bookSection" class="hidden">
+            <h2>Book List</h2>
+            <a href="addBook.jsp">
+                <button style="margin-bottom: 10px; padding: 10px; font-size: 16px;">➕ Add Book</button>
+            </a>
+            <table>
+                <tr>
+                    <th>ID</th>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th>Translator</th>
+                    <th>Supplier</th>
+                    <th>Publisher</th>
+                    <th>Publish Year</th>
+                    <th>Language</th>
+                    <th>Weight (g)</th>
+                    <th>Dimensions</th>
+                    <th>Page Count</th>
+                    <th>Format</th>
+                    <th>SKU</th>
+                    <th>Category ID</th>
+                    <th>Description</th>
+                    <th>Image</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Review Count</th>
+                    <th>Purchase Count</th>
+                    <th>Actions</th>
+                </tr>
+                <%
+                    BookDAO bookDAO = new BookDAO();
+                    List<Book> books = bookDAO.getAllBooks();
+                    for (Book b : books) {
+                %>
+                <tr>
+                    <td><%= b.getBookID() %></td>
+                    <td><%= b.getTitle() %></td>
+                    <td><%= b.getAuthor() %></td>
+                    <td><%= b.getTranslator() != null ? b.getTranslator() : "N/A" %></td>
+                    <td><%= b.getSupplier() != null ? b.getSupplier() : "N/A" %></td>
+                    <td><%= b.getPublisher() != null ? b.getPublisher() : "N/A" %></td>
+                    <td><%= b.getPublishYear() %></td>
+                    <td><%= b.getLanguage() %></td>
+                    <td><%= b.getWeight() > 0 ? b.getWeight() + " g" : "N/A" %></td>
+                    <td><%= b.getDimensions() != null ? b.getDimensions() : "N/A" %></td>
+                    <td><%= b.getPageCount() %></td>
+                    <td><%= b.getFormat() != null ? b.getFormat() : "N/A" %></td>
+                    <td><%= b.getSku() != null ? b.getSku() : "N/A" %></td>
+                    <td><%= b.getCategoryID() %></td>
+                    <td><%= b.getDescription() %></td>
+                    <td>
+                        <img src="<%= b.getImage() %>" alt="Book Cover" width="50">
+                    </td>
+                    <td>$<%= b.getPrice() %></td>
+                    <td><%= b.getQuantity() %></td>
+                    <td><%= b.getReviewCount() %></td>
+                    <td><%= b.getPurchaseCount() %></td>
+                    <td>
+                        <a href="updateBook.jsp?id=<%= b.getBookID() %>">Update</a> | 
+                        <a href="AdminServlet?action=deleteBook&id=<%= b.getBookID() %>" 
+                           onclick="return confirm('Are you sure you want to delete this book?')">Delete</a>
+                    </td>
+                </tr>
+                <% } %>
+            </table>
+        </div>
     </body>
 </html>

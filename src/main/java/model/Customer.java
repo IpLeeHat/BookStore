@@ -11,12 +11,13 @@ public class Customer {
     private String purchasedBook;
     private int quantity;
     private double totalPrice;
+    private String role;
 
     // Constructor mặc định (giải quyết lỗi khởi tạo không có tham số)
     public Customer() {
     }
 
-    public Customer(String id, String name, String phoneNumber, String email, String address, String purchasedBook, int quantity, double totalPrice) {
+    public Customer(String id, String name, String phoneNumber, String email, String address, String purchasedBook, int quantity, double totalPrice, String role) {
         this.id = id;
         this.name = name;
         this.phoneNumber = phoneNumber;
@@ -25,6 +26,7 @@ public class Customer {
         this.purchasedBook = purchasedBook;
         this.quantity = quantity;
         this.totalPrice = totalPrice;
+        this.role = role;
     }
 
     // Thêm phương thức getUsername() và setUsername()
@@ -107,6 +109,10 @@ public class Customer {
 
     public void setTotalPrice(double totalPrice) {
         this.totalPrice = totalPrice;
+    }
+
+    public String getRole() {
+        return role;
     }
 
     @Override

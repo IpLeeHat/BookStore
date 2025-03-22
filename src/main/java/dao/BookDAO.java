@@ -128,22 +128,77 @@ public class BookDAO {
     }
 
     public boolean updateBook(Book book) {
-        String sql = "UPDATE BOOK SET title=?, author=?, translator=?, supplier=?, publisher=?, publishYear=?, "
-                + "language=?, weight=?, dimensions=?, pageCount=?, format=?, sku=?, categoryID=?, description=?, "
-                + "image=?, price=?, quantity=?, reviewCount=?, purchaseCount=? WHERE bookID=?";
-        return executeUpdate(sql, book, book.getBookID());
+    if (book == null) {
+        throw new IllegalArgumentException("Book không được null!");
     }
+
+    String sql = "UPDATE BOOK SET title=?, author=?, publisher=?, publishYear=?, price=?, quantity=?, reviewCount=?, purchaseCount=?, image=?, description=? WHERE bookID=?";
+    
+    try (Connection conn = DBContext.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+        ps.setString(1, book.getTitle());
+        ps.setString(2, book.getAuthor());
+        ps.setString(3, book.getPublisher());
+        ps.setInt(4, book.getPublishYear());
+        ps.setDouble(5, book.getPrice());
+        ps.setInt(6, book.getQuantity());
+        ps.setInt(7, book.getReviewCount());
+        ps.setInt(8, book.getPurchaseCount());
+        ps.setString(9, book.getImage());
+        ps.setString(10, book.getDescription()); // THÊM NÀY!
+        ps.setInt(11, book.getBookID());
+
+        int rowsAffected = ps.executeUpdate();
+        System.out.println("Rows affected: " + rowsAffected); // Debug
+        return rowsAffected > 0;
+    } catch (SQLException e) {
+        e.printStackTrace();
+        return false;
+    }
+}
+
 
     public boolean deleteBook(int bookID) {
         return executeUpdate("DELETE FROM BOOK WHERE bookID = ?", bookID);
     }
 
-    public void addBook(Book book) {
-        String sql = "INSERT INTO BOOK (title, author, translator, supplier, publisher, publishYear, language, weight, "
-                + "dimensions, pageCount, format, sku, categoryID, description, image, price, quantity, reviewCount, purchaseCount) "
-                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        executeUpdate(sql, book, null);
+    public boolean addBook(Book book) {
+    if (book == null) {
+        throw new IllegalArgumentException("Book không được null!");
     }
+
+    String sql = "INSERT INTO BOOK (title, author, translator, supplier, publisher, publishYear, language, weight, dimensions, pageCount, format, sku, categoryID, description, image, price, quantity, reviewCount, purchaseCount) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+    try (Connection conn = DBContext.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+        ps.setString(1, book.getTitle());
+        ps.setString(2, book.getAuthor());
+        ps.setString(3, book.getTranslator());
+        ps.setString(4, book.getSupplier());
+        ps.setString(5, book.getPublisher());
+        ps.setInt(6, book.getPublishYear());
+        ps.setString(7, book.getLanguage());
+        ps.setInt(8, book.getWeight());
+        ps.setString(9, book.getDimensions());
+        ps.setInt(10, book.getPageCount());
+        ps.setString(11, book.getFormat());
+        ps.setString(12, book.getSku());
+        ps.setInt(13, book.getCategoryID());
+        ps.setString(14, book.getDescription());
+        ps.setString(15, book.getImage());
+        ps.setDouble(16, book.getPrice());
+        ps.setInt(17, book.getQuantity());
+        ps.setInt(18, book.getReviewCount());
+        ps.setInt(19, book.getPurchaseCount());
+
+        int rowsInserted = ps.executeUpdate();
+        System.out.println("Rows inserted: " + rowsInserted); // Debug
+        return rowsInserted > 0;
+    } catch (SQLException e) {
+        e.printStackTrace();
+        return false;
+    }
+}
+
+
 
     public Book getBookById(int bookID) {
         String sql = "SELECT * FROM BOOK WHERE bookID = ?";

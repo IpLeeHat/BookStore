@@ -9,19 +9,12 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-@WebServlet("/admin/addBook")
+@WebServlet("/AddBookServlet")
 public class AddBookServlet extends HttpServlet {
-    private BookDAO bookDAO = new BookDAO();
-
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getRequestDispatcher("/admin/book-add.jsp").forward(request, response);
-    }
-
-    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        System.out.println("AddBookServlet is running!"); // DEBUG
+
         try {
-            // Lấy dữ liệu từ request
             String title = request.getParameter("title");
             String author = request.getParameter("author");
             String translator = request.getParameter("translator");
@@ -42,19 +35,22 @@ public class AddBookServlet extends HttpServlet {
             int reviewCount = Integer.parseInt(request.getParameter("reviewCount"));
             int purchaseCount = Integer.parseInt(request.getParameter("purchaseCount"));
 
-            // Tạo đối tượng sách
-            Book book = new Book(0, title, author, translator, supplier, publisher, publishYear, language, weight, 
-                                 dimensions, pageCount, format, sku, categoryID, description, image, price, quantity, reviewCount, purchaseCount);
+            Book newBook = new Book(0, title, author, translator, supplier, publisher, publishYear, language, weight, dimensions, pageCount, format, sku, categoryID, description, image, price, quantity, reviewCount, purchaseCount);
 
-            // Thêm sách vào database
-            bookDAO.addBook(book);
-            response.sendRedirect(request.getContextPath() + "/admin/books");
+            BookDAO bookDAO = new BookDAO();
+            boolean isAdded = bookDAO.addBook(newBook);
+
+            System.out.println("Add success: " + isAdded); // Debug
+
+            if (isAdded) {
+                response.sendRedirect("admin.jsp");
+            } else {
+                response.sendRedirect("error.jsp");
+            }
         } catch (NumberFormatException e) {
-            request.setAttribute("error", "Lỗi: Dữ liệu số không hợp lệ.");
-            request.getRequestDispatcher("/admin/book-add.jsp").forward(request, response);
-        } catch (Exception e) {
-            request.setAttribute("error", "Lỗi khi thêm sách: " + e.getMessage());
-            request.getRequestDispatcher("/admin/book-add.jsp").forward(request, response);
+            e.printStackTrace();
+            response.sendRedirect("error.jsp");
         }
     }
 }
+
