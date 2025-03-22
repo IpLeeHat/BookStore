@@ -10,8 +10,8 @@
                 font-family: Arial, sans-serif;
                 margin: 0;
                 padding: 0;
-                background-color: #1e1e1e;
-                color: #fff;
+                background-color: #F0F0F0;
+                color: #333;
             }
 
             /* ✅ Thanh điều hướng */
@@ -19,40 +19,42 @@
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
-                background-color: #111;
+                background-color: #ffffff;
                 padding: 10px 5%;
+                box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
             }
 
             .top-img img {
                 width: 100%;
-                height: 200px
+                height: 250px;
             }
 
             .logo img {
-                width: 150px;
+                padding-left: 100px;
+                width: 200px;
             }
 
             .search-bar {
                 display: flex;
                 align-items: center;
-                background: #333;
+                background: #fff;
                 padding: 5px;
                 border-radius: 5px;
+                border: 1px solid #ccc;
             }
 
             .search-bar input {
                 padding: 10px;
-                border: 1px solid #CDCFD0;
-                ;
+                border: none;
                 outline: none;
                 width: 400px;
                 border-radius: 5px;
-                background: #222;
-                color: white;
+                background: #f1f1f1;
+                color: #333;
             }
 
             .search-bar button {
-                background-color: red;
+                background-color: #007bff;
                 color: white;
                 border: none;
                 padding: 10px;
@@ -68,7 +70,7 @@
             }
 
             .icons a {
-                color: white;
+                color: #333;
                 text-decoration: none;
                 display: flex;
                 align-items: center;
@@ -85,23 +87,25 @@
                 justify-content: center;
                 gap: 10px;
                 padding: 15px;
-                background: #222;
+                background: #ffffff;
                 border-radius: 5px;
                 margin: 20px;
+                box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
             }
 
             .filter-container select,
             .filter-container input {
                 padding: 8px;
                 border-radius: 5px;
-                border: none;
+                border: 1px solid #ccc;
                 outline: none;
+                background: #f8f9fa;
             }
 
             .filter-container button {
                 padding: 8px 12px;
                 border: none;
-                background: red;
+                background: #007bff;
                 color: white;
                 border-radius: 5px;
                 cursor: pointer;
@@ -110,27 +114,28 @@
             /* ✅ Hiển thị sách theo dạng lưới */
             .book-container {
                 display: grid;
-                grid-template-columns: repeat(4, 1fr);
-                gap: 20px;
-                padding: 20px;
+                grid-template-columns: repeat(5, 1fr);
+                gap: 15px;
+                padding: 5% 10% 10% 10%;
             }
 
             .book-card {
-                background-color: #292929;
-                padding: 15px;
+                background-color: #ffffff;
+                padding: 10px;
                 border-radius: 8px;
                 text-align: center;
                 transition: transform 0.3s ease-in-out;
+                box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
             }
 
             .book-card:hover {
                 transform: translateY(-5px);
-                box-shadow: 0px 5px 15px rgba(255, 255, 255, 0.1);
+                box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
             }
 
             .book-card img {
-                width: 100%;
-                height: 250px;
+                width: 60%;
+                aspect-ratio: 5 / 7;
                 object-fit: cover;
                 border-radius: 5px;
             }
@@ -138,11 +143,13 @@
             .book-title {
                 font-weight: bold;
                 margin: 10px 0;
+                font-size: 15px;
             }
 
             .book-price {
-                color: #ff4c4c;
+                color: #dc3545;
                 font-weight: bold;
+                font-size: 13px;
             }
 
             /* ✅ Dropdown menu */
@@ -154,7 +161,7 @@
             .dropbtn {
                 background: none;
                 border: none;
-                color: white;
+                color: #333;
                 font-size: 16px;
                 cursor: pointer;
                 display: flex;
@@ -165,16 +172,16 @@
             .dropdown-content {
                 display: none;
                 position: absolute;
-                background-color: #333;
+                background-color: #ffffff;
                 min-width: 150px;
                 right: 0;
-                box-shadow: 0px 5px 10px rgba(255, 255, 255, 0.1);
+                box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
                 border-radius: 5px;
                 z-index: 1;
             }
 
             .dropdown-content a {
-                color: white;
+                color: #333;
                 padding: 10px;
                 text-decoration: none;
                 display: block;
@@ -182,12 +189,14 @@
             }
 
             .dropdown-content a:hover {
-                background-color: red;
+                background-color: #007bff;
+                color: white;
             }
 
             .dropdown:hover .dropdown-content {
                 display: block;
             }
+    
         </style>
     </head>
     <body>
@@ -240,62 +249,62 @@
                     </div>
                 </div>
             </div>
+        </header>
+
+        <!-- ✅ Bộ lọc -->
+        <div class="filter-container">
+            <form action="books" method="get">
+
+
+                <select name="category">
+                    <option value="">-- Chọn thể loại --</option>
+                    <option value="1">Khoa học</option>
+                    <option value="2">Văn học</option>
+                    <option value="3">Lịch sử</option>
+                    <option value="4">Kinh tế</option>
+                </select>
+
+                <select name="priceRange">
+                    <option value="">-- Chọn giá --</option>
+                    <option value="0-100000">Dưới 100k</option>
+                    <option value="100000-300000">100k - 300k</option>
+                    <option value="300000-500000">300k - 500k</option>
+                    <option value="500000-1000000">500k - 1 triệu</option>
+                    <option value="1000000-">Trên 1 triệu</option>
+                </select>
+
+                <select name="sortBy">
+                    <option value="">-- Sắp xếp theo giá --</option>
+                    <option value="asc">Giá thấp đến cao</option>
+                    <option value="desc">Giá cao đến thấp</option>
+                </select>
+
+                <button type="submit">Lọc</button>
+            </form>
         </div>
-    </header>
 
-    <!-- ✅ Bộ lọc -->
-    <div class="filter-container">
-        <form action="books" method="get">
-
-
-            <select name="category">
-                <option value="">-- Chọn thể loại --</option>
-                <option value="1">Khoa học</option>
-                <option value="2">Văn học</option>
-                <option value="3">Lịch sử</option>
-                <option value="4">Kinh tế</option>
-            </select>
-
-            <select name="priceRange">
-                <option value="">-- Chọn giá --</option>
-                <option value="0-100000">Dưới 100k</option>
-                <option value="100000-300000">100k - 300k</option>
-                <option value="300000-500000">300k - 500k</option>
-                <option value="500000-1000000">500k - 1 triệu</option>
-                <option value="1000000-">Trên 1 triệu</option>
-            </select>
-
-            <select name="sortBy">
-                <option value="">-- Sắp xếp theo giá --</option>
-                <option value="asc">Giá thấp đến cao</option>
-                <option value="desc">Giá cao đến thấp</option>
-            </select>
-
-            <button type="submit">Lọc</button>
-        </form>
-    </div>
-
-    <!-- ✅ Danh sách sách theo dạng lưới -->
-    <div class="book-container">
-        <%
-            List<Book> books = (List<Book>) request.getAttribute("books");
-            if (books != null && !books.isEmpty()) {
-                for (Book book : books) {
-        %>
-        <div class="book-card">
-            <img src="<%= book.getImage() %>" alt="Bìa sách">
-            <p class="book-title"><%= book.getTitle() %></p>
-            <p class="book-price"><%= book.getPrice() %> VNĐ</p>
-        </div>
-        <%
+        <!-- ✅ Danh sách sách theo dạng lưới -->
+        <div class="book-container">
+            <%
+                List<Book> books = (List<Book>) request.getAttribute("books");
+                if (books != null && !books.isEmpty()) {
+                    for (Book book : books) {
+            %>
+            <div class="book-card">
+                <img src="<%= book.getImage() %>" alt="Bìa sách">
+                <p class="book-title"><%= book.getTitle() %></p>
+                <p class="book-price"><%= book.getPrice() %> VNĐ</p>
+                <p class="book-sold">Sold: <%= book.getPurchaseCount() %> </p>
+            </div>
+            <%
+                    }
+                } else {
+            %>
+            <p style="text-align: center; width: 100%;">Không có sách nào.</p>
+            <%
                 }
-            } else {
-        %>
-        <p style="text-align: center; width: 100%;">Không có sách nào.</p>
-        <%
-            }
-        %>
-    </div>
+            %>
+        </div>
 
-</body>
+    </body>
 </html>
