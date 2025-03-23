@@ -77,8 +77,8 @@ public class AdminServlet extends HttpServlet {
 
         try {
             if ("deleteCustomer".equals(action)) {
-                String username = request.getParameter("username");
-                customerDAO.deleteCustomer(username);
+                int customerId = Integer.parseInt(request.getParameter("id")); // Đổi String -> int
+                customerDAO.deleteCustomer(customerId); // Gọi phương thức với int id
                 response.sendRedirect("admin.jsp?message=Customer deleted successfully");
             } else if ("deleteBook".equals(action)) {
                 int id = Integer.parseInt(request.getParameter("id"));
@@ -86,7 +86,7 @@ public class AdminServlet extends HttpServlet {
                 response.sendRedirect("admin.jsp?message=Book deleted successfully");
             }
         } catch (NumberFormatException e) {
-            response.sendRedirect("admin.jsp?error=Invalid book ID format");
+            response.sendRedirect("admin.jsp?error=Invalid ID format");
         } catch (Exception e) {
             response.sendRedirect("admin.jsp?error=An error occurred while processing your request");
             e.printStackTrace();

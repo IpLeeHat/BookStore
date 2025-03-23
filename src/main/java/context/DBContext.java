@@ -7,7 +7,7 @@ import java.sql.SQLException;
 public class DBContext {
 
     private static final String URL = "jdbc:sqlserver://localhost:1433;databaseName=BookShop;encrypt=true;trustServerCertificate=true;";
-    private static final String USER = "bookadmin";
+    private static final String USER = "sa";
     private static final String PASSWORD = "123";
 
     public static Connection getConnection() throws SQLException {
@@ -23,7 +23,7 @@ public class DBContext {
         
         String url = "jdbc:sqlserver://localhost:1433;databaseName=BookShop;encrypt=true;trustServerCertificate=true;";
 
-        String user = "bookadmin";
+        String user = "sa";
         String password = "123"; 
 
         try {

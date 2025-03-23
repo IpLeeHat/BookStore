@@ -20,6 +20,21 @@ public class BookDAO {
         }
         return books;
     }
+    
+    public Book getBookByID(int bookID) {
+        String sql = "SELECT * FROM BOOK WHERE bookID = ?";
+        try (Connection conn = DBContext.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, bookID);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return mapResultSetToBook(rs);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
     public List<Book> searchBooksByTitle(String title) {
         List<Book> books = new ArrayList<>();
@@ -36,6 +51,7 @@ public class BookDAO {
         }
         return books;
     }
+
     public List<Book> searchBooks(String keyword) {
         List<Book> books = new ArrayList<>();
         String query = "SELECT * FROM BOOK WHERE title LIKE ?";
@@ -67,7 +83,8 @@ public class BookDAO {
         }
         return books;
     }
-     public List<Book> sortBooks(String sortBy, String order) {
+
+    public List<Book> sortBooks(String sortBy, String order) {
         List<Book> books = new ArrayList<>();
 
         if (!sortBy.matches("title|price|publishYear|purchaseCount") || !order.matches("ASC|DESC")) {
@@ -214,4 +231,7 @@ public class BookDAO {
         ps.setInt(18, book.getReviewCount());
         ps.setInt(19, book.getPurchaseCount());
     }
+
+    
+
 }

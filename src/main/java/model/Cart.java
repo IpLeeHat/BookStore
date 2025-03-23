@@ -9,14 +9,19 @@ public class Cart {
     private int quantity;
     private String title;
     private BigDecimal price;
+    private String imageUrl; // 🆕 Thêm ảnh sản phẩm
 
-    public Cart(int cartID, int userID, int bookID, int quantity, String title, BigDecimal price) {
+    public Cart() {
+    }
+
+    public Cart(int cartID, int userID, int bookID, int quantity, String title, BigDecimal price, String imageUrl) {
         this.cartID = cartID;
         this.userID = userID;
         this.bookID = bookID;
         this.quantity = quantity;
         this.title = title;
         this.price = price;
+        this.imageUrl = imageUrl;
     }
 
     public int getCartID() {
@@ -67,5 +72,16 @@ public class Cart {
         this.price = price;
     }
 
-    
+    public BigDecimal getTotalPrice() {
+        return price.multiply(BigDecimal.valueOf(quantity));
+    }
+
+    // 🆕 Thêm getter & setter cho imageUrl
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
 }

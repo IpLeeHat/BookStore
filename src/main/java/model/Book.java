@@ -1,8 +1,11 @@
 package model;
 
+import java.text.NumberFormat;
 import java.util.Date;
+import java.util.Locale;
 
 public class Book {
+
     private int bookID;
     private String title;
     private String author;
@@ -21,35 +24,34 @@ public class Book {
     private String image;
     private double price;
     private int quantity;
-     private int reviewCount;
+    private int reviewCount;
     private int purchaseCount;
 
-    public Book(int bookID, String title, String author, String translator, String supplier, String publisher, 
-            int publishYear, String language, int weight, String dimensions, int pageCount, 
-            String format, String sku, int categoryID, String description, String image, 
+    public Book(int bookID, String title, String author, String translator, String supplier, String publisher,
+            int publishYear, String language, int weight, String dimensions, int pageCount,
+            String format, String sku, int categoryID, String description, String image,
             double price, int quantity, int reviewCount, int purchaseCount) { // ✅ Thêm hai tham số
-    this.bookID = bookID;
-    this.title = title;
-    this.author = author;
-    this.translator = translator;
-    this.supplier = supplier;
-    this.publisher = publisher;
-    this.publishYear = publishYear;
-    this.language = language;
-    this.weight = weight;
-    this.dimensions = dimensions;
-    this.pageCount = pageCount;
-    this.format = format;
-    this.sku = sku;
-    this.categoryID = categoryID;
-    this.description = description;
-    this.image = image;
-    this.price = price;
-    this.quantity = quantity;
-    this.reviewCount = reviewCount; 
-    this.purchaseCount = purchaseCount; 
-}
-
+        this.bookID = bookID;
+        this.title = title;
+        this.author = author;
+        this.translator = translator;
+        this.supplier = supplier;
+        this.publisher = publisher;
+        this.publishYear = publishYear;
+        this.language = language;
+        this.weight = weight;
+        this.dimensions = dimensions;
+        this.pageCount = pageCount;
+        this.format = format;
+        this.sku = sku;
+        this.categoryID = categoryID;
+        this.description = description;
+        this.image = image;
+        this.price = price;
+        this.quantity = quantity;
+        this.reviewCount = reviewCount;
+        this.purchaseCount = purchaseCount;
+    }
 
     // Getters và Setters
     public int getBookID() {
@@ -195,7 +197,8 @@ public class Book {
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
-      public int getReviewCount() {
+
+    public int getReviewCount() {
         return reviewCount;
     }
 
@@ -209,5 +212,10 @@ public class Book {
 
     public void setPurchaseCount(int purchaseCount) {
         this.purchaseCount = purchaseCount;
+    }
+
+    public String getFormattedPrice() {
+        NumberFormat formatter = NumberFormat.getNumberInstance(Locale.US);
+        return formatter.format(price);
     }
 }
