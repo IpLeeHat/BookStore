@@ -28,5 +28,10 @@
         <p><strong>Thông báo lỗi:</strong> <%= request.getAttribute("error") %></p>
         <a href="books.jsp">Quay lại trang chủ</a>
     </div>
+        
+        <% if (request.getAttribute("errorMessage") != null) { %>
+    <p style="color:red;">Lỗi: <%= request.getAttribute("errorMessage") %></p>
+<% } %>
+
 </body>
 </html>
