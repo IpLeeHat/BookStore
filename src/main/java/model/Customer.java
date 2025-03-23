@@ -1,22 +1,22 @@
-
 package model;
 
 public class Customer {
 
-    private String id;
+    private int id; // Đổi từ String sang int
     private String name;
-    private String phoneNumber; // Đây là thuộc tính phoneNumber, không phải phone
+    private String phoneNumber;
     private String email;
     private String address;
     private String purchasedBook;
     private int quantity;
     private double totalPrice;
 
-    // Constructor mặc định (giải quyết lỗi khởi tạo không có tham số)
+    // Constructor mặc định
     public Customer() {
     }
 
-    public Customer(String id, String name, String phoneNumber, String email, String address, String purchasedBook, int quantity, double totalPrice) {
+    // Constructor đầy đủ tham số
+    public Customer(int id, String name, String phoneNumber, String email, String address, String purchasedBook, int quantity, double totalPrice) {
         this.id = id;
         this.name = name;
         this.phoneNumber = phoneNumber;
@@ -27,30 +27,29 @@ public class Customer {
         this.totalPrice = totalPrice;
     }
 
-    // Thêm phương thức getUsername() và setUsername()
+    // Getter và Setter
+    public int getId() { // Đổi kiểu trả về từ String sang int
+        return id;
+    }
+
+    public void setId(int id) { // Đổi kiểu tham số từ String sang int
+        this.id = id;
+    }
+
     public String getUsername() {
-        return this.name; // Giả sử username là name
+        return this.name;
     }
 
     public void setUsername(String username) {
         this.name = username;
     }
 
-    // Thêm phương thức getPhone() (Vì biến là phoneNumber, không phải phone)
     public String getPhone() {
         return this.phoneNumber;
     }
 
     public void setPhone(String phoneNumber) {
         this.phoneNumber = phoneNumber;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public String getName() {
@@ -112,7 +111,7 @@ public class Customer {
     @Override
     public String toString() {
         return "Customer{"
-                + "id='" + id + '\''
+                + "id=" + id // Không còn dấu nháy vì id giờ là int
                 + ", name='" + name + '\''
                 + ", phoneNumber='" + phoneNumber + '\''
                 + ", email='" + email + '\''
@@ -123,4 +122,3 @@ public class Customer {
                 + '}';
     }
 }
-
