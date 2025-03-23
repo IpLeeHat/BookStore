@@ -128,6 +128,12 @@
                 box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
             }
 
+            .book-card a {
+                text-decoration: none; 
+                color: inherit; 
+                display: block; 
+            }
+
             .book-card:hover {
                 transform: translateY(-5px);
                 box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
@@ -265,7 +271,7 @@
                 <!-- Icon thông báo, giỏ hàng, tài khoản -->
                 <div class="icons">
                     <a href="#"><i class="fas fa-bell"></i> Thông báo</a>
-                    <a href="#"><i class="fas fa-shopping-cart"></i> Giỏ hàng</a>
+                    <a href="cart"><i class="fas fa-shopping-cart"></i> Giỏ hàng</a>
 
                     <div class="dropdown">
                         <button class="dropbtn">
