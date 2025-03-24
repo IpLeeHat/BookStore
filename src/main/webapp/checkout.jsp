@@ -16,7 +16,7 @@
 
     double totalAmount = 0;
     for (Cart item : cartItems) {
-        totalAmount += item.getPrice().doubleValue() * item.getQuantity();
+        totalAmount += item.getPrice() * item.getQuantity();
     }
 %>
 
@@ -111,7 +111,7 @@
         <td><%= item.getTitle() %></td>
         <td><%= item.getQuantity() %></td>
         <td><%= item.getPrice() %> VNĐ</td>
-        <td><%= item.getPrice().doubleValue() * item.getQuantity() %> VNĐ</td>
+        <td><%= item.getPrice() * item.getQuantity() %> VNĐ</td>
     </tr>
     <% } %>
 </table>
