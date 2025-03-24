@@ -84,10 +84,11 @@
                 <th>Hành động</th>
             </tr>
             <% for (Cart item : cartItems) { %>
+
             <tr>
-                <td><img src="<%= item.getImageUrl() %>" alt="Ảnh sách" width="80"></td>
+                <td><img src="<%= item.getImage() %>" alt="Ảnh sách" width="80"></td>
                 <td><%= item.getTitle() %></td>
-                <td><%= item.getPrice() %> VNĐ</td>
+                <td><%= String.format("%,.2f", item.getPrice()) %> VNĐ</td>
                 <td>
                     <form action="cart" method="post">
                         <input type="hidden" name="action" value="update">
@@ -96,7 +97,7 @@
                         <button type="submit">Cập nhật</button>
                     </form>
                 </td>
-                <td><%= item.getTotalPrice() %> VNĐ</td>
+                <td><%= String.format("%,.2f", item.getTotalPrice()) %> VNĐ</td>
                 <td>
                     <form action="cart" method="post">
                         <input type="hidden" name="action" value="remove">
@@ -112,7 +113,7 @@
 
         <a href="book.jsp" class="btn">Tiếp tục mua sắm</a>
         <a href="checkout.jsp" class="btn btn-checkout">Thanh toán</a>
-        <a href="order-history" class="btn">Lịch sử mua hàng</a>
+        <!--<a href="order-history" class="btn">Lịch sử mua hàng</a>-->
     </body>
 </html>
 
