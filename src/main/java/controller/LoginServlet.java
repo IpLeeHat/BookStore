@@ -14,7 +14,10 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.List;
 import model.Customer;
+import model.Cart;
 
 @WebServlet(name = "LoginServlet", urlPatterns = {"/LoginServlet"})
 public class LoginServlet extends HttpServlet {
@@ -24,7 +27,7 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         String remember = request.getParameter("remember");
@@ -44,9 +47,9 @@ public class LoginServlet extends HttpServlet {
                 // Tạo đối tượng Customer từ dữ liệu database
                 Customer customer = new Customer();
                 customer.setId(userId); // Đổi setId(String) -> setId(int)
-                customer.setName(rs.getString("username")); 
+                customer.setName(rs.getString("username"));
                 customer.setEmail(rs.getString("email"));
-                customer.setPhoneNumber(rs.getString("phone")); 
+                customer.setPhoneNumber(rs.getString("phone"));
                 customer.setAddress(rs.getString("address"));
 
                 // Lưu vào session
@@ -55,6 +58,35 @@ public class LoginServlet extends HttpServlet {
                 session.setAttribute("username", username);
                 session.setAttribute("role", role);
                 session.setAttribute("user", customer); // Lưu Customer vào session
+// 🛒 Lấy giỏ hàng từ database khi đăng nhập (JOIN với BOOK để lấy thông tin sách)
+                String cartQuery = "SELECT c.cartID, c.bookID, c.quantity, b.title, b.price, b.image "
+                        + "FROM CART c JOIN BOOK b ON c.bookID = b.bookID "
+                        + "WHERE c.userID = ?";
+                PreparedStatement cartStmt = conn.prepareStatement(cartQuery);
+                cartStmt.setInt(1, userId);
+                ResultSet cartRs = cartStmt.executeQuery();
+
+// Tạo danh sách giỏ hàng
+                List<Cart> cartList = new ArrayList<>();
+                while (cartRs.next()) {
+                    Cart cartItem = new Cart();
+                    cartItem.setCartID(cartRs.getInt("cartID"));
+                    cartItem.setUserID(userId);
+                    cartItem.setBookID(cartRs.getInt("bookID"));
+                    cartItem.setQuantity(cartRs.getInt("quantity"));
+
+                    // Lấy dữ liệu từ BOOK
+                    cartItem.setTitle(cartRs.getString("title"));
+                    cartItem.setPrice(cartRs.getDouble("price"));
+                    cartItem.setImage(cartRs.getString("image"));
+
+                    cartList.add(cartItem);
+                }
+                cartRs.close();
+                cartStmt.close();
+
+// Lưu giỏ hàng vào session
+                session.setAttribute("cart", cartList);
 
                 // Nếu chọn "Ghi nhớ đăng nhập", lưu vào cookie
                 if ("yes".equals(remember)) {
