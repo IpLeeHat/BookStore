@@ -1,27 +1,24 @@
 package model;
 
-import java.math.BigDecimal;
-
 public class Cart {
     private int cartID;
     private int userID;
     private int bookID;
     private int quantity;
-    private String title;
-    private BigDecimal price;
-    private String imageUrl; // 🆕 Thêm ảnh sản phẩm
+    private String title;  // ✅ Thêm tiêu đề sách
+    private double price;  // ✅ Thêm giá sách
+    private String image;  // ✅ Thêm ảnh sách
 
-    public Cart() {
-    }
+    public Cart() {}
 
-    public Cart(int cartID, int userID, int bookID, int quantity, String title, BigDecimal price, String imageUrl) {
+    public Cart(int cartID, int userID, int bookID, int quantity, String title, double price, String image) {
         this.cartID = cartID;
         this.userID = userID;
         this.bookID = bookID;
         this.quantity = quantity;
         this.title = title;
         this.price = price;
-        this.imageUrl = imageUrl;
+        this.image = image;
     }
 
     public int getCartID() {
@@ -64,24 +61,24 @@ public class Cart {
         this.title = title;
     }
 
-    public BigDecimal getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(BigDecimal price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 
-    public BigDecimal getTotalPrice() {
-        return price.multiply(BigDecimal.valueOf(quantity));
+    public String getImage() {
+        return image;
     }
 
-    // 🆕 Thêm getter & setter cho imageUrl
-    public String getImageUrl() {
-        return imageUrl;
+    public void setImage(String image) {
+        this.image = image;
     }
+    
+    public double getTotalPrice() {
+    return price * quantity;
+}
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
 }
