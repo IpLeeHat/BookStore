@@ -10,6 +10,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import model.Book;
+import model.Customer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -32,12 +33,66 @@ public class AdminServlet extends HttpServlet {
         try {
             if ("addBook".equals(action) || "updateBook".equals(action)) {
                 handleBookAction(request, response, action);
-            } else {
+            } 
+            // THÊM XỬ LÝ UPDATE CUSTOMER
+            else if ("updateCustomer".equals(action)) {
+                handleUpdateCustomer(request, response);
+            }
+            else {
                 response.sendRedirect("admin.jsp?error=Unknown action");
             }
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, "Error processing POST request", e);
             response.sendRedirect("admin.jsp?error=An error occurred while processing your request");
+        }
+    }
+
+    // THÊM PHƯƠNG THỨC XỬ LÝ UPDATE CUSTOMER
+    private void handleUpdateCustomer(HttpServletRequest request, HttpServletResponse response) 
+            throws ServletException, IOException {
+        try {
+            String customerId = request.getParameter("customerId");
+            String name = request.getParameter("name");
+            String phone = request.getParameter("phone");
+            String email = request.getParameter("email");
+            String address = request.getParameter("address");
+            String role = request.getParameter("role");
+
+            // Validate input
+            if (customerId == null || customerId.trim().isEmpty() || 
+                name == null || name.trim().isEmpty() ||
+                email == null || email.trim().isEmpty()) {
+                response.sendRedirect("admin.jsp?error=Required fields are missing");
+                return;
+            }
+
+            // Kiểm tra email đã tồn tại chưa (trừ customer hiện tại)
+            if (customerDAO.isEmailExists(email, customerId)) {
+                response.sendRedirect("admin.jsp?error=Email already exists for another customer");
+                return;
+            }
+
+            // Tạo đối tượng Customer với thông tin mới
+            Customer customer = new Customer();
+            customer.setId(customerId);
+            customer.setName(name);
+            customer.setPhoneNumber(phone);
+            customer.setEmail(email);
+            customer.setAddress(address);
+            customer.setRole(role);
+
+            // Thực hiện update
+            boolean success = customerDAO.updateCustomer(customer);
+            
+            if (success) {
+                response.sendRedirect("admin.jsp?message=Customer updated successfully");
+            } else {
+                response.sendRedirect("admin.jsp?error=Failed to update customer");
+            }
+            
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "Error updating customer", e);
+            response.sendRedirect("admin.jsp?error=An error occurred while updating customer");
         }
     }
 

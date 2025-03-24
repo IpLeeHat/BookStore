@@ -28,9 +28,10 @@ public class CustomerDAO {
         String sql = "SELECT userID, username, phone, email, address, purchasedBook, quantity, totalPrice, role FROM Users";
 
         try (PreparedStatement ps = conn.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
+
             while (rs.next()) {
-                byte roleByte = rs.getByte("role");
-                String role = (roleByte == 1) ? "Admin" : "User"; // Chuyển đổi role
+                // Sửa lại phần này để lấy đúng giá trị role từ database
+                String role = rs.getString("role"); // Giữ nguyên giá trị 0 hoặc 1
 
                 customers.add(new Customer(
                         rs.getString("userID"),
@@ -41,7 +42,7 @@ public class CustomerDAO {
                         rs.getString("purchasedBook"),
                         rs.getInt("quantity"),
                         rs.getDouble("totalPrice"),
-                        role
+                        role // Truyền thẳng giá trị role từ database
                 ));
             }
         } catch (SQLException e) {
@@ -81,6 +82,42 @@ public class CustomerDAO {
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {
             LOGGER.log(Level.SEVERE, "Lỗi cập nhật mật khẩu cho email: " + email, e);
+        }
+        return false;
+    }
+
+    // 2. Phương thức cập nhật thông tin customer (QUAN TRỌNG)
+    public boolean updateCustomer(Customer customer) {
+        String sql = "UPDATE Users SET username=?, phone=?, email=?, address=?, role=? WHERE userID=?";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, customer.getName());
+            ps.setString(2, customer.getPhoneNumber());
+            ps.setString(3, customer.getEmail());
+            ps.setString(4, customer.getAddress());
+            ps.setString(5, customer.getRole());
+            ps.setString(6, customer.getId());
+
+            int rowsAffected = ps.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "Lỗi cập nhật khách hàng: " + customer.getId(), e);
+        }
+        return false;
+    }
+
+    // 3. Phương thức kiểm tra email đã tồn tại chưa (khi update)
+    public boolean isEmailExists(String email, String excludeUserId) {
+        String sql = "SELECT COUNT(*) FROM Users WHERE email = ? AND userID != ?";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, email);
+            ps.setString(2, excludeUserId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1) > 0;
+                }
+            }
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "Lỗi kiểm tra email tồn tại: " + email, e);
         }
         return false;
     }
