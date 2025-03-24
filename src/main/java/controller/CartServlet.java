@@ -34,9 +34,10 @@ public class CartServlet extends HttpServlet {
         }
 
         List<Cart> cartItems = cartDAO.getCartByUserID(userId);
-        BigDecimal totalAmount = cartItems.stream()
-                .map(Cart::getTotalPrice)
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
+       double totalAmount = cartItems.stream()
+        .mapToDouble(cart -> cart.getPrice() * cart.getQuantity())
+        .sum();
+
 
         request.setAttribute("cartItems", cartItems);
         request.setAttribute("totalAmount", totalAmount);
@@ -69,14 +70,15 @@ public class CartServlet extends HttpServlet {
                     cartDAO.addToCart(userId, book, quantity);
                     request.setAttribute("message", "Sản phẩm đã được thêm vào giỏ hàng.");
                 }
-            } else if ("update".equals(action)) {
-                int cartId = Integer.parseInt(request.getParameter("cartId"));
-                int quantity = Integer.parseInt(request.getParameter("quantity"));
-                if (quantity > 0) {
-                    cartDAO.updateCartQuantity(cartId, quantity);
-                } else {
-                    cartDAO.removeFromCart(cartId);
-                }
+           } else if ("update".equals(action)) {
+    int bookId = Integer.parseInt(request.getParameter("bookId")); // Lấy bookId thay vì cartId
+    int quantity = Integer.parseInt(request.getParameter("quantity"));
+    if (quantity > 0) {
+        cartDAO.updateCartQuantity(userId, bookId, quantity);
+    } else {
+        cartDAO.removeFromCart(bookId); // Cần sửa removeFromCart nếu nó chỉ nhận cartID
+    }
+
             } else if ("remove".equals(action)) {
                 String cartIdParam = request.getParameter("cartId");
 
