@@ -11,7 +11,6 @@ import DAO.BookDAO;
 import model.Cart;
 
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,7 +58,7 @@ public class AddToCartServlet extends HttpServlet {
                                     book.getBookID(), 
                                     1, 
                                     book.getTitle(), 
-                                    BigDecimal.valueOf(book.getPrice()), 
+                                    book.getPrice(), 
                                     book.getImage()
                             );
                             cartItems.add(newCartItem);
