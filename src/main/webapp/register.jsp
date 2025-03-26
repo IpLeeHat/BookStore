@@ -101,9 +101,11 @@
         <div class="register-container">
             <h2>Đăng ký</h2>
 
-            <% String error = request.getParameter("error"); %>
-            <% if (error != null) { %>
-            <p class='error-message'><%= error %></p>
+
+            <% if (request.getParameter("error") != null) { %>
+            <div style="color: red; text-align: center; margin: 10px 0;">
+                <%= request.getParameter("error") %>
+            </div>
             <% } %>
 
             <form action="RegisterServlet" method="post">

@@ -16,12 +16,8 @@ public class Customer {
     public Customer() {
     }
 
-<<<<<<< HEAD
-    // Constructor đầy đủ tham số
-    public Customer(int id, String name, String phoneNumber, String email, String address, String purchasedBook, int quantity, double totalPrice) {
-=======
-    public Customer(String id, String name, String phoneNumber, String email, String address, String purchasedBook, int quantity, double totalPrice, String role) {
->>>>>>> fca60eca8b1241d9084828933b5793f8a53b5579
+
+    public Customer(int id, String name, String phoneNumber, String email, String address, String purchasedBook, int quantity, double totalPrice, String role) {
         this.id = id;
         this.name = name;
         this.phoneNumber = phoneNumber;
