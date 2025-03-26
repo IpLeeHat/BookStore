@@ -10,13 +10,14 @@ public class Customer {
     private String purchasedBook;
     private int quantity;
     private double totalPrice;
+    private String role;
 
     // Constructor mặc định
     public Customer() {
     }
 
-    // Constructor đầy đủ tham số
-    public Customer(int id, String name, String phoneNumber, String email, String address, String purchasedBook, int quantity, double totalPrice) {
+
+    public Customer(int id, String name, String phoneNumber, String email, String address, String purchasedBook, int quantity, double totalPrice, String role) {
         this.id = id;
         this.name = name;
         this.phoneNumber = phoneNumber;
@@ -25,6 +26,7 @@ public class Customer {
         this.purchasedBook = purchasedBook;
         this.quantity = quantity;
         this.totalPrice = totalPrice;
+        this.role = role;
     }
 
     // Getter và Setter
@@ -106,6 +108,16 @@ public class Customer {
 
     public void setTotalPrice(double totalPrice) {
         this.totalPrice = totalPrice;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+    
+    
+
+    public String getRole() {
+        return role;
     }
 
     @Override
